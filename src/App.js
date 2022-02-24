@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { Flex, Tag } from "@chakra-ui/react";
 
@@ -30,8 +29,6 @@ function points2coords(points, step) {
 }
 
 function Diagram({ points, m }) {
-  const cx = 2000;
-  const cy = 800;
   const step = (2 * Math.PI) / m;
 
   return (
