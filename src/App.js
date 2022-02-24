@@ -57,28 +57,33 @@ function Diagram({ points, m }) {
   );
 }
 
-function expand(start, mult, m) {
+function expand(start, mult, m, c) {
   const ret = [];
   const s = new Set();
   while (!s.has(start)) {
     ret.push(start);
     s.add(start);
-
-    start = (start * mult) % m;
+    start = (start * mult + c) % m;
   }
   console.log(ret);
   return ret;
 }
 
 function App() {
-  const state = useCompositeState({ m: 7417, mult: 240 });
+  const state = useCompositeState({ m: 7417, mult: 240, c: 2, start: 1 });
   return (
     <div className="App">
       <Flex>
-        <Diagram points={expand(1, state.mult, state.m)} m={state.m} />
+        <Diagram
+          points={expand(state.start, state.mult, state.m, state.c)}
+          m={state.m}
+        />
         <Flex direction={"column"}>
           <Tag>Modulus</Tag>
-          <NumberInput value={state.m} onChange={(value) => (state.m = value)}>
+          <NumberInput
+            value={state.m}
+            onChange={(value) => (state.m = parseInt(value))}
+          >
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
@@ -88,7 +93,30 @@ function App() {
           <Tag>Multiplier</Tag>
           <NumberInput
             value={state.mult}
-            onChange={(value) => (state.mult = value)}
+            onChange={(value) => (state.mult = parseInt(value))}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+          <Tag>Constant</Tag>
+          <NumberInput
+            value={state.c}
+            onChange={(value) => (state.c = parseInt(value))}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+
+          <Tag>Start</Tag>
+          <NumberInput
+            value={state.start}
+            onChange={(value) => (state.start = parseInt(value))}
           >
             <NumberInputField />
             <NumberInputStepper>
